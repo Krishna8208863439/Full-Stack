@@ -1,7 +1,8 @@
 import '../models/user_model.dart';
 
 abstract class IAuthRepository {
-  Future<UserModel> loginWithEmailPassword(String email, String password, String roleId);
+  Future<UserModel> loginWithEmailPassword(String email, String password, String role);
+  Future<UserModel> signInWithGoogle(String role);
   Future<void> sendPasswordReset(String email);
   Future<bool> verifyOtp(String otpCode);
   Future<void> logout();
@@ -9,28 +10,50 @@ abstract class IAuthRepository {
 }
 
 class AuthRepository implements IAuthRepository {
-  UserModel? _mockCurrentUser = const UserModel(
+  UserModel? _currentUser = const UserModel(
     uid: 'usr_admin_001',
     email: 'admin@texmill-erp.com',
-    displayName: 'Rajesh Kumar (Senior Manager)',
-    roleId: 'admin',
+    displayName: 'Rajesh Kumar (Plant Manager)',
+    photoUrl: 'https://lh3.googleusercontent.com/a/default-user',
+    role: 'admin',
     department: 'Plant Operations',
+    assignedLoomIds: ['AJ-001', 'AJ-002', 'RP-003', 'AJ-004', 'AJ-005', 'RP-006'],
   );
 
   @override
-  UserModel? get currentUser => _mockCurrentUser;
+  UserModel? get currentUser => _currentUser;
 
   @override
-  Future<UserModel> loginWithEmailPassword(String email, String password, String roleId) async {
-    await Future.delayed(const Duration(milliseconds: 600)); // Simulate API latency
-    _mockCurrentUser = UserModel(
-      uid: 'usr_${roleId}_001',
+  Future<UserModel> loginWithEmailPassword(String email, String password, String role) async {
+    await Future.delayed(const Duration(milliseconds: 600)); // Latency simulation
+    _currentUser = UserModel(
+      uid: 'usr_${role}_${DateTime.now().millisecondsSinceEpoch}',
       email: email,
-      displayName: email.contains('admin') ? 'Rajesh Kumar (Admin)' : 'Operational Specialist',
-      roleId: roleId,
-      department: 'Mill Operations',
+      displayName: role == 'admin' ? 'Rajesh Kumar (Admin)' : 'John Weaver (Worker)',
+      role: role,
+      department: role == 'admin' ? 'Plant Management' : 'Shed A Weaving Floor',
+      assignedLoomIds: role == 'admin' ? ['AJ-001', 'AJ-002', 'RP-003'] : ['AJ-001', 'AJ-002'],
+      lastLogin: DateTime.now().toIso8601String(),
     );
-    return _mockCurrentUser!;
+    return _currentUser!;
+  }
+
+  @override
+  Future<UserModel> signInWithGoogle(String selectedRole) async {
+    await Future.delayed(const Duration(milliseconds: 700));
+    _currentUser = UserModel(
+      uid: 'google_user_${DateTime.now().millisecondsSinceEpoch}',
+      email: 'krishna.g@gmail.com',
+      displayName: 'Krishna (Google Account)',
+      photoUrl: 'https://lh3.googleusercontent.com/a/default-avatar',
+      role: selectedRole,
+      department: selectedRole == 'admin' ? 'Executive Operations' : 'Weaving Floor Operator',
+      assignedLoomIds: selectedRole == 'admin' ? ['AJ-001', 'RP-003'] : ['AJ-001'],
+      createdAt: DateTime.now().toIso8601String(),
+      lastLogin: DateTime.now().toIso8601String(),
+      deviceInfo: 'Google One-Tap Session',
+    );
+    return _currentUser!;
   }
 
   @override
@@ -46,6 +69,6 @@ class AuthRepository implements IAuthRepository {
 
   @override
   Future<void> logout() async {
-    _mockCurrentUser = null;
+    _currentUser = null;
   }
 }

@@ -16,7 +16,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController(text: 'admin@texmill-erp.com');
   final _passwordController = TextEditingController(text: 'password123');
-  String _selectedRole = 'admin';
+  String _selectedRole = 'admin'; // 'admin' or 'worker'
   bool _rememberMe = true;
   bool _obscurePassword = true;
 
@@ -35,7 +35,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             _selectedRole,
           );
       if (success && mounted) {
-        context.go(AppRoutes.dashboard);
+        if (_selectedRole == 'admin') {
+          context.go(AppRoutes.adminDashboard);
+        } else {
+          context.go(AppRoutes.workerDashboard);
+        }
+      }
+    }
+  }
+
+  void _handleGoogleLogin() async {
+    final success = await ref.read(authProvider.notifier).loginWithGoogle(_selectedRole);
+    if (success && mounted) {
+      if (_selectedRole == 'admin') {
+        context.go(AppRoutes.adminDashboard);
+      } else {
+        context.go(AppRoutes.workerDashboard);
       }
     }
   }
@@ -70,7 +85,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Industrial Corporate Header
+                  // Industrial Brand Header
                   Row(
                     children: [
                       Container(
@@ -102,8 +117,82 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(width: 0, height: 28),
+                  const SizedBox(height: 24),
                   const Divider(color: AppColors.borderLight),
+                  const SizedBox(height: 20),
+
+                  // Role Selection Segmented Bar (Admin vs Worker)
+                  const Text(
+                    'SELECT LOGIN TYPE',
+                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.secondarySlate, letterSpacing: 0.8),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.surfaceVariantLight,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppColors.borderLight),
+                    ),
+                    padding: const EdgeInsets.all(4),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() => _selectedRole = 'admin'),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                color: _selectedRole == 'admin' ? AppColors.primaryBlue : Colors.transparent,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.admin_panel_settings, size: 18, color: _selectedRole == 'admin' ? Colors.white : AppColors.secondarySlate),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    'Admin',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                      color: _selectedRole == 'admin' ? Colors.white : AppColors.textDark,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() => _selectedRole = 'worker'),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                color: _selectedRole == 'worker' ? AppColors.primaryBlue : Colors.transparent,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.badge, size: 18, color: _selectedRole == 'worker' ? Colors.white : AppColors.secondarySlate),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    'Worker',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                      color: _selectedRole == 'worker' ? Colors.white : AppColors.textDark,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 20),
 
                   if (authState.errorMessage != null) ...[
@@ -130,29 +219,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const SizedBox(height: 16),
                   ],
 
-                  // Role Selection Switcher
-                  const Text('Select Enterprise Access Role', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.secondarySlate)),
-                  const SizedBox(height: 6),
-                  DropdownButtonFormField<String>(
-                    value: _selectedRole,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
-                    ),
-                    items: const [
-                      DropdownMenuItem(value: 'admin', child: Text('System Administrator')),
-                      DropdownMenuItem(value: 'plant_manager', child: Text('Plant Operations Manager')),
-                      DropdownMenuItem(value: 'supervisor', child: Text('Production Supervisor')),
-                      DropdownMenuItem(value: 'quality_inspector', child: Text('Quality Control Inspector')),
-                      DropdownMenuItem(value: 'maintenance_tech', child: Text('Maintenance Engineer')),
-                      DropdownMenuItem(value: 'weaver_operator', child: Text('Loom Weaver / Operator')),
-                    ],
-                    onChanged: (val) {
-                      if (val != null) setState(() => _selectedRole = val);
-                    },
-                  ),
-                  const SizedBox(height: 16),
-
                   // Email Input
                   TextFormField(
                     controller: _emailController,
@@ -163,7 +229,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
                     ),
                     validator: (val) {
-                      if (val == null || val.isEmpty) return 'Please enter corporate email';
+                      if (val == null || val.isEmpty) return 'Please enter email';
                       return null;
                     },
                   ),
@@ -187,9 +253,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
 
-                  // Remember me & Forgot Password
+                  // Remember me & Forgot password
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -206,14 +272,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       TextButton(
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Password reset instructions sent to system administrator.')),
+                            const SnackBar(content: Text('Password reset instructions sent to registered email.')),
                           );
                         },
                         child: const Text('Forgot Password?', style: TextStyle(fontSize: 13, color: AppColors.primaryBlue)),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
                   // Sign In Button
                   SizedBox(
@@ -227,13 +293,46 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       child: authState.isLoading
                           ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                          : const Text('SIGN IN TO FACTORY SYSTEM', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, letterSpacing: 0.5)),
+                          : Text(
+                              'SIGN IN AS ${_selectedRole.toUpperCase()}',
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, letterSpacing: 0.5),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Or Divider
+                  const Row(
+                    children: [
+                      Expanded(child: Divider(color: AppColors.borderLight)),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text('OR', style: TextStyle(fontSize: 11, color: AppColors.secondarySlate, fontWeight: FontWeight.bold)),
+                      ),
+                      Expanded(child: Divider(color: AppColors.borderLight)),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Google Sign In Button
+                  OutlinedButton.icon(
+                    onPressed: authState.isLoading ? null : _handleGoogleLogin,
+                    icon: const Icon(Icons.g_mobiledata, size: 24, color: AppColors.primaryBlue),
+                    label: Text(
+                      'Continue with Google ($_selectedRole)',
+                      style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textDark, fontSize: 13),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      side: const BorderSide(color: AppColors.borderLight),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
                     ),
                   ),
                   const SizedBox(height: 24),
+
                   const Center(
                     child: Text(
-                      'Protected by TexMill Enterprise Security Standards • TLS 1.3',
+                      'Protected by TexMill Enterprise Auth • TLS 1.3 & Firebase SSO',
                       style: TextStyle(fontSize: 11, color: AppColors.secondarySlate),
                     ),
                   ),

@@ -19,6 +19,9 @@ class AuthState {
     this.isAuthenticated = false,
   });
 
+  bool get isAdmin => user?.role == 'admin';
+  bool get isWorker => user?.role == 'worker';
+
   AuthState copyWith({
     UserModel? user,
     bool? isLoading,
@@ -43,10 +46,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
           isAuthenticated: _repository.currentUser != null,
         ));
 
-  Future<bool> login(String email, String password, String roleId) async {
+  Future<bool> login(String email, String password, String role) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final user = await _repository.loginWithEmailPassword(email, password, roleId);
+      final user = await _repository.loginWithEmailPassword(email, password, role);
       state = state.copyWith(
         user: user,
         isLoading: false,
@@ -56,7 +59,26 @@ class AuthNotifier extends StateNotifier<AuthState> {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        errorMessage: 'Invalid credentials or connection timeout.',
+        errorMessage: 'Invalid credentials or connection error.',
+      );
+      return false;
+    }
+  }
+
+  Future<bool> loginWithGoogle(String role) async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    try {
+      final user = await _repository.signInWithGoogle(role);
+      state = state.copyWith(
+        user: user,
+        isLoading: false,
+        isAuthenticated: true,
+      );
+      return true;
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: 'Google authentication failed.',
       );
       return false;
     }

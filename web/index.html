@@ -37,6 +37,34 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: var(--bg-surface-variant); color: var(--text-dark); display: flex; height: 100vh; overflow: hidden; }
 
+    /* Login View Styles */
+    .login-container {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg-surface-variant);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2000;
+    }
+    .login-card {
+      background: var(--bg-surface);
+      width: 440px;
+      padding: 36px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    .role-toggle {
+      display: flex; background: var(--bg-surface-variant);
+      padding: 4px; border-radius: 8px; border: 1px solid var(--border-color);
+      margin-bottom: 20px;
+    }
+    .role-btn {
+      flex: 1; padding: 10px; border: none; background: transparent;
+      font-weight: 700; font-size: 13px; color: var(--text-muted);
+      border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .role-btn.active { background: var(--primary-blue); color: #FFF; }
+
     /* Sidebar Navigation */
     .sidebar {
       width: 260px;
@@ -84,7 +112,7 @@
     .nav-item:hover, .nav-item.active { background-color: rgba(15, 82, 186, 0.15); color: #60A5FA; }
     .nav-item i { width: 18px; text-align: center; }
 
-    /* Main Content Area */
+    /* Main Container */
     .main-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
     .top-bar {
       height: 60px;
@@ -107,20 +135,18 @@
       text-transform: uppercase;
     }
     .top-actions { display: flex; align-items: center; gap: 16px; }
-    .btn-icon { background: none; border: none; color: var(--text-muted); font-size: 16px; cursor: pointer; position: relative; }
+    .btn-icon { background: none; border: none; color: var(--text-muted); font-size: 16px; cursor: pointer; }
 
     .content-viewport { flex: 1; padding: 24px; overflow-y: auto; }
 
-    /* Grid & Cards */
+    /* Cards & Grids */
     .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
     .kpi-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: 8px;
       padding: 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      display: flex; flex-direction: column; justify-content: space-between;
     }
     .kpi-header { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--text-muted); }
     .kpi-value { font-size: 24px; font-weight: 800; margin: 10px 0 4px 0; color: var(--primary-blue); }
@@ -129,7 +155,6 @@
     .card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 24px; }
     .card-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* Telemetry Grid */
     .loom-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .loom-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; }
     .loom-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -142,13 +167,11 @@
     .loom-rpm { color: var(--primary-blue); font-size: 18px; }
     .loom-eff { color: var(--status-success); font-size: 14px; }
 
-    /* Tables */
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
     th { background: var(--bg-surface-variant); padding: 10px 14px; font-weight: 700; color: var(--text-muted); border-bottom: 1px solid var(--border-color); }
     td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); }
     tr:hover { background: var(--bg-surface-variant); }
 
-    /* Buttons & Forms */
     .btn { padding: 8px 16px; border-radius: 6px; border: none; font-weight: 600; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
     .btn-primary { background: var(--primary-blue); color: #FFF; }
     .btn-primary:hover { background: var(--primary-blue-hover); }
@@ -158,24 +181,51 @@
     .form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; display: block; }
     .form-input, select { width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-surface); color: var(--text-dark); }
 
-    /* Modal Overlay */
     .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
     .modal-card { background: var(--bg-surface); width: 450px; border-radius: 8px; padding: 24px; border: 1px solid var(--border-color); }
-
-    @media (max-width: 1024px) {
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-      .loom-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 650px) {
-      .sidebar { width: 70px; }
-      .brand-title, .brand-subtitle, .nav-item span { display: none; }
-      .kpi-grid, .loom-grid { grid-template-columns: 1fr; }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar -->
+  <!-- Login Overlay View -->
+  <div class="login-container" id="loginScreen">
+    <div class="login-card">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
+        <div class="brand-icon"><i class="fa-solid fa-industry"></i></div>
+        <div>
+          <div style="font-size:18px; font-weight:700;">TEXMILL ERP</div>
+          <div style="font-size:12px; color:var(--text-muted);">Weaving Mill Enterprise Login</div>
+        </div>
+      </div>
+
+      <div class="form-label" style="margin-bottom:6px;">SELECT LOGIN TYPE</div>
+      <div class="role-toggle">
+        <button class="role-btn active" id="btnRoleAdmin" onclick="setLoginRole('admin')"><i class="fa-solid fa-user-shield"></i> Admin</button>
+        <button class="role-btn" id="btnRoleWorker" onclick="setLoginRole('worker')"><i class="fa-solid fa-user-gear"></i> Worker</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Corporate Email / Employee ID</label>
+        <input class="form-input" id="loginEmail" value="admin@texmill-erp.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" value="password123">
+      </div>
+
+      <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:10px; padding:12px;" onclick="performLogin()">SIGN IN TO FACTORY SYSTEM</button>
+      
+      <div style="text-align:center; margin:16px 0; font-size:11px; font-weight:700; color:var(--text-muted);">OR</div>
+
+      <button class="btn btn-outline" style="width:100%; justify-content:center; padding:10px;" onclick="performGoogleLogin()">
+        <i class="fa-brands fa-google" style="color:var(--primary-blue);"></i> Continue with Google
+      </button>
+
+      <div style="text-align:center; font-size:11px; color:var(--text-muted); margin-top:20px;">Protected by TexMill Auth • TLS 1.3 & Firebase SSO</div>
+    </div>
+  </div>
+
+  <!-- Main App Layout -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="brand-icon"><i class="fa-solid fa-industry"></i></div>
@@ -184,20 +234,21 @@
         <div class="brand-subtitle">Weaving Mill Enterprise</div>
       </div>
     </div>
-    <ul class="nav-list">
-      <li class="nav-item active" onclick="switchTab('dashboard')"><i class="fa-solid fa-chart-line"></i><span>Executive Dashboard</span></li>
-      <li class="nav-item" onclick="switchTab('telemetry')"><i class="fa-solid fa-microchip"></i><span>Machine Telemetry</span></li>
-      <li class="nav-item" onclick="switchTab('production')"><i class="fa-solid fa-scroll"></i><span>Production Orders</span></li>
-      <li class="nav-item" onclick="switchTab('inventory')"><i class="fa-solid fa-boxes-stacked"></i><span>Yarn & Stock</span></li>
-      <li class="nav-item" onclick="switchTab('quality')"><i class="fa-solid fa-award"></i><span>Quality Control (ASTM)</span></li>
-      <li class="nav-item" onclick="switchTab('maintenance')"><i class="fa-solid fa-wrench"></i><span>Maintenance Tickets</span></li>
-      <li class="nav-item" onclick="switchTab('attendance')"><i class="fa-solid fa-id-card"></i><span>Shift Attendance</span></li>
-      <li class="nav-item" onclick="switchTab('reports')"><i class="fa-solid fa-file-invoice"></i><span>Enterprise Reports</span></li>
-      <li class="nav-item" onclick="switchTab('settings')"><i class="fa-solid fa-sliders"></i><span>Mill Settings</span></li>
+    <ul class="nav-list" id="sidebarNav">
+      <!-- Admin Nav Items -->
+      <li class="nav-item active admin-only" onclick="switchTab('dashboard')"><i class="fa-solid fa-chart-line"></i><span>Admin Dashboard</span></li>
+      <li class="nav-item worker-only" style="display:none;" onclick="switchTab('worker-dashboard')"><i class="fa-solid fa-user-gear"></i><span>Worker Dashboard</span></li>
+      <li class="nav-item admin-only" onclick="switchTab('telemetry')"><i class="fa-solid fa-microchip"></i><span>Machine Telemetry</span></li>
+      <li class="nav-item admin-only" onclick="switchTab('production')"><i class="fa-solid fa-scroll"></i><span>Production Orders</span></li>
+      <li class="nav-item admin-only" onclick="switchTab('inventory')"><i class="fa-solid fa-boxes-stacked"></i><span>Yarn & Stock</span></li>
+      <li class="nav-item admin-only" onclick="switchTab('quality')"><i class="fa-solid fa-award"></i><span>Quality Control (ASTM)</span></li>
+      <li class="nav-item admin-only" onclick="switchTab('maintenance')"><i class="fa-solid fa-wrench"></i><span>Maintenance Tickets</span></li>
+      <li class="nav-item admin-only" onclick="switchTab('attendance')"><i class="fa-solid fa-id-card"></i><span>Shift Attendance</span></li>
+      <li class="nav-item admin-only" onclick="switchTab('reports')"><i class="fa-solid fa-file-invoice"></i><span>Enterprise Reports</span></li>
+      <li class="nav-item admin-only" onclick="switchTab('settings')"><i class="fa-solid fa-sliders"></i><span>Mill Settings</span></li>
     </ul>
   </aside>
 
-  <!-- Main Container -->
   <main class="main-container">
     <header class="top-bar">
       <div class="page-title-area">
@@ -205,15 +256,19 @@
         <span class="role-badge" id="userRoleBadge">ROLE: ADMIN</span>
       </div>
       <div class="top-actions">
+        <select id="headerRoleSwitcher" style="width: auto; padding: 4px 8px; font-weight:700;" onchange="switchUserRole(this.value)">
+          <option value="admin">Switch to Admin Mode</option>
+          <option value="worker">Switch to Worker Mode</option>
+        </select>
         <button class="btn-icon" title="Toggle Theme" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
-        <button class="btn-icon" title="Notifications"><i class="fa-solid fa-bell"></i></button>
-        <div style="font-size: 13px; font-weight: 600;"><i class="fa-solid fa-user-gear"></i> Rajesh Kumar</div>
+        <button class="btn-icon" title="Logout" onclick="logoutApp()"><i class="fa-solid fa-right-from-bracket" style="color:var(--status-danger);"></i></button>
+        <div style="font-size: 13px; font-weight: 600;" id="userProfileName"><i class="fa-solid fa-user-circle"></i> Rajesh Kumar</div>
       </div>
     </header>
 
-    <div class="content-viewport" id="viewport">
+    <div class="content-viewport">
 
-      <!-- View: Dashboard -->
+      <!-- View: Admin Dashboard -->
       <section id="view-dashboard">
         <div class="kpi-grid">
           <div class="kpi-card">
@@ -241,75 +296,100 @@
         <div class="card">
           <div class="card-title">
             <span>LIVE LOOM OPERATIONAL MATRIX (AIRJET / RAPIER)</span>
-            <button class="btn btn-primary" onclick="openModal('modal-order')"><i class="fa-solid fa-plus"></i> New Production Order</button>
+            <button class="btn btn-primary" onclick="openModal('modal-order')"><i class="fa-solid fa-plus"></i> New Order</button>
           </div>
-          <div class="loom-grid" id="dashboardLoomGrid">
-            <!-- Dynamically populated -->
-          </div>
+          <div class="loom-grid" id="dashboardLoomGrid"></div>
         </div>
       </section>
 
-      <!-- View: Machine Telemetry -->
+      <!-- View: Worker Dashboard -->
+      <section id="view-worker-dashboard" style="display:none;">
+        <div class="card" style="background:var(--bg-surface);">
+          <div class="card-title">
+            <span>WORKER ASSIGNED LOOM TELEMETRY & TASKS</span>
+            <button class="btn btn-primary" style="background:var(--status-success);" onclick="alert('Shift A Attendance Marked: PRESENT')"><i class="fa-solid fa-check"></i> Mark Shift Attendance</button>
+          </div>
+          
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-header"><span>ASSIGNED LOOM</span><i class="fa-solid fa-gears" style="color:var(--primary-blue);"></i></div>
+              <div class="kpi-value">AJ-001</div>
+              <div class="kpi-subtitle">Airjet • Shed A Weaving Floor</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header"><span>SPEED RPM</span><i class="fa-solid fa-gauge" style="color:var(--status-success);"></i></div>
+              <div class="kpi-value">842 RPM</div>
+              <div class="kpi-subtitle">Target: 850 RPM</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header"><span>WOVEN TODAY</span><i class="fa-solid fa-ruler" style="color:var(--primary-blue);"></i></div>
+              <div class="kpi-value" id="workerMetersVal">380 m</div>
+              <div class="kpi-subtitle">Target: 420 m</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header"><span>STOP COUNTS</span><i class="fa-solid fa-triangle-exclamation" style="color:var(--status-warning);"></i></div>
+              <div class="kpi-value">W: 2 | WF: 0</div>
+              <div class="kpi-subtitle">Shift A Recorded</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:12px; margin-bottom:20px;">
+            <button class="btn btn-primary" onclick="openModal('modal-log-meters')"><i class="fa-solid fa-plus"></i> Log Woven Meters Output</button>
+            <button class="btn btn-outline" onclick="openModal('modal-leave')"><i class="fa-solid fa-calendar-minus"></i> Submit Leave Request</button>
+          </div>
+
+          <div class="card-title"><span>TODAY SHIFT WORKER INSTRUCTIONS</span></div>
+          <table>
+            <thead><tr><th>Task Instruction</th><th>Priority</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Inspect Airjet Loom AJ-001 Warp Thread Tension</td><td><b style="color:var(--status-warning);">HIGH</b></td><td><span class="badge badge-warning">IN_PROGRESS</span></td></tr>
+              <tr><td>Clear Weft Stop Sensor on Loom AJ-002</td><td>NORMAL</td><td><span class="badge badge-warning">PENDING</span></td></tr>
+              <tr><td>Log End-of-Shift Woven Meterage Entry</td><td>HIGH</td><td><span class="badge badge-success">COMPLETED</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- View: Telemetry -->
       <section id="view-telemetry" style="display:none;">
-        <div class="card">
-          <div class="card-title"><span>Real-Time Airjet & Rapier Loom Telemetry</span></div>
-          <div class="loom-grid" id="telemetryGrid"></div>
-        </div>
+        <div class="card"><div class="card-title"><span>Real-Time Machine Telemetry</span></div><div class="loom-grid" id="telemetryGrid"></div></div>
       </section>
 
-      <!-- View: Production Orders -->
+      <!-- View: Production -->
       <section id="view-production" style="display:none;">
         <div class="card">
-          <div class="card-title">
-            <span>Production Orders & Scheduling</span>
-            <button class="btn btn-primary" onclick="openModal('modal-order')"><i class="fa-solid fa-plus"></i> Add Production Order</button>
-          </div>
+          <div class="card-title"><span>Production Orders & Scheduling</span><button class="btn btn-primary" onclick="openModal('modal-order')"><i class="fa-solid fa-plus"></i> Add Order</button></div>
           <table>
-            <thead>
-              <tr><th>Order No</th><th>Customer</th><th>Fabric Spec</th><th>Target (m)</th><th>Produced (m)</th><th>Status</th></tr>
-            </thead>
+            <thead><tr><th>Order No</th><th>Customer</th><th>Fabric Spec</th><th>Target (m)</th><th>Produced (m)</th><th>Status</th></tr></thead>
             <tbody id="ordersTableBody">
               <tr><td><b>PO-9901</b></td><td>Apex Textiles</td><td>30s-COTTON-63IN</td><td>50,000</td><td>32,400</td><td><span class="badge badge-success">RUNNING</span></td></tr>
               <tr><td><b>PO-9902</b></td><td>Raymond Synthetic</td><td>150D-POLYESTER</td><td>20,000</td><td>20,000</td><td><span class="badge badge-success">COMPLETED</span></td></tr>
-              <tr><td><b>PO-9903</b></td><td>Vardhman Mills</td><td>40s-COMBED-GREY</td><td>35,000</td><td>4,100</td><td><span class="badge badge-warning">SETUP</span></td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- View: Yarn & Stock -->
+      <!-- View: Inventory -->
       <section id="view-inventory" style="display:none;">
         <div class="card">
-          <div class="card-title">
-            <span>Yarn Warehouse & Paper Cone Tare Weight Ledger</span>
-            <button class="btn btn-primary" onclick="openModal('modal-yarn')"><i class="fa-solid fa-boxes-packing"></i> Record Yarn Stock In</button>
-          </div>
+          <div class="card-title"><span>Yarn Warehouse & Paper Cone Tare Weight Ledger</span><button class="btn btn-primary" onclick="openModal('modal-yarn')"><i class="fa-solid fa-boxes-packing"></i> Yarn Stock In</button></div>
           <table>
-            <thead>
-              <tr><th>Yarn Code</th><th>Count Spec</th><th>Supplier</th><th>Cones</th><th>Gross Wt (kg)</th><th>Tare Wt (kg)</th><th>Net Wt (kg)</th><th>Status</th></tr>
-            </thead>
+            <thead><tr><th>Yarn Code</th><th>Count Spec</th><th>Supplier</th><th>Cones</th><th>Gross Wt (kg)</th><th>Tare Wt (kg)</th><th>Net Wt (kg)</th><th>Status</th></tr></thead>
             <tbody id="yarnTableBody">
               <tr><td><b>YN-4081</b></td><td>30s Cotton Combed</td><td>Vardhman Mills</td><td>1,200</td><td>15,000.0</td><td>800.0</td><td><b>14,200.0</b></td><td><span class="badge badge-success">NORMAL</span></td></tr>
-              <tr><td><b>YN-4082</b></td><td>150D/48F Poly</td><td>Reliance Tex</td><td>80</td><td>900.0</td><td>50.0</td><td><b>850.0</b></td><td><span class="badge badge-warning">LOW STOCK</span></td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- View: Quality Control -->
+      <!-- View: Quality -->
       <section id="view-quality" style="display:none;">
         <div class="card">
-          <div class="card-title">
-            <span>ASTM D5430 4-Point System Fabric Inspection Calculator</span>
-            <button class="btn btn-primary" onclick="openModal('modal-qa')"><i class="fa-solid fa-calculator"></i> Calculate & Grade Roll</button>
-          </div>
+          <div class="card-title"><span>ASTM D5430 4-Point Fabric Inspection</span><button class="btn btn-primary" onclick="openModal('modal-qa')"><i class="fa-solid fa-calculator"></i> Grade Roll</button></div>
           <table>
-            <thead>
-              <tr><th>Roll No</th><th>Loom ID</th><th>Yards</th><th>Width (in)</th><th>Points</th><th>Score / 100 sq yd</th><th>Grade</th></tr>
-            </thead>
+            <thead><tr><th>Roll No</th><th>Loom ID</th><th>Yards</th><th>Width (in)</th><th>Points</th><th>Score / 100 sq yd</th><th>Grade</th></tr></thead>
             <tbody id="qaTableBody">
               <tr><td><b>ROLL-2026-0491</b></td><td>AJ-012</td><td>120.0</td><td>63.0</td><td>6</td><td><b>2.85</b></td><td><span class="badge badge-success">GRADE_A (FRESH)</span></td></tr>
-              <tr><td><b>ROLL-2026-0492</b></td><td>RP-003</td><td>100.0</td><td>58.0</td><td>38</td><td><b>23.58</b></td><td><span class="badge badge-warning">GRADE_B (SECOND)</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -318,63 +398,33 @@
       <!-- View: Maintenance -->
       <section id="view-maintenance" style="display:none;">
         <div class="card">
-          <div class="card-title">
-            <span>Machine Breakdown Tickets & Maintenance</span>
-            <button class="btn btn-primary" onclick="alert('Breakdown ticket #TCK-403 dispatched to floor technician.')"><i class="fa-solid fa-triangle-exclamation"></i> Log Breakdown Ticket</button>
-          </div>
+          <div class="card-title"><span>Machine Breakdown Tickets</span></div>
           <table>
-            <thead>
-              <tr><th>Ticket ID</th><th>Loom ID</th><th>Issue</th><th>Priority</th><th>Downtime</th><th>Tech</th><th>Status</th></tr>
-            </thead>
+            <thead><tr><th>Ticket ID</th><th>Loom ID</th><th>Issue</th><th>Priority</th><th>Downtime</th><th>Tech</th><th>Status</th></tr></thead>
             <tbody>
               <tr><td><b>TCK-401</b></td><td>AJ-018</td><td>Main Motor Overheat</td><td><b style="color:var(--status-danger);">HIGH</b></td><td>00:42:10</td><td>M. Tech</td><td><span class="badge badge-warning">IN_PROGRESS</span></td></tr>
-              <tr><td><b>TCK-402</b></td><td>RP-004</td><td>Weft Feeder Fault</td><td><b style="color:var(--status-danger);">CRITICAL</b></td><td>01:15:30</td><td>S. Engineer</td><td><span class="badge badge-danger">OPEN</span></td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- View: Shift Attendance -->
+      <!-- View: Attendance -->
       <section id="view-attendance" style="display:none;">
-        <div class="card">
-          <div class="card-title"><span>Shift Roster & Piece-Rate Output</span></div>
-          <table>
-            <thead>
-              <tr><th>Emp ID</th><th>Name</th><th>Role</th><th>Shift</th><th>Assigned Looms</th><th>Status</th><th>Output</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><b>EMP-101</b></td><td>John Weaver</td><td>Loom Weaver</td><td>SHIFT_A</td><td>AJ-001 to 004</td><td><span class="badge badge-success">PRESENT</span></td><td><b>420 m</b></td></tr>
-              <tr><td><b>EMP-102</b></td><td>Rajesh Tackler</td><td>Tackler</td><td>SHIFT_A</td><td>Shed A All</td><td><span class="badge badge-success">PRESENT</span></td><td>-</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="card"><div class="card-title"><span>Shift Roster & Piece-Rate Output</span></div></div>
       </section>
-
       <!-- View: Reports -->
       <section id="view-reports" style="display:none;">
-        <div class="card">
-          <div class="card-title"><span>Enterprise PDF & Excel Report Exporters</span></div>
-          <div style="display:flex; gap:12px; margin-bottom:16px;">
-            <button class="btn btn-primary" onclick="alert('Generating Daily Production Summary PDF Report...')"><i class="fa-solid fa-file-pdf"></i> Export Production PDF</button>
-            <button class="btn btn-outline" onclick="alert('Exporting Yarn Reconciliation Excel (.xlsx) Ledger...')"><i class="fa-solid fa-file-excel"></i> Export Yarn Excel</button>
-          </div>
-        </div>
+        <div class="card"><div class="card-title"><span>Enterprise PDF & Excel Exporters</span></div></div>
       </section>
-
       <!-- View: Settings -->
       <section id="view-settings" style="display:none;">
-        <div class="card">
-          <div class="card-title"><span>Mill Operational Configuration</span></div>
-          <div class="form-group"><label class="form-label">Default Reed Space (cm)</label><input class="form-input" value="190.0"></div>
-          <div class="form-group"><label class="form-label">Target Airjet Loom RPM</label><input class="form-input" value="850"></div>
-          <button class="btn btn-primary" onclick="alert('Master Settings Saved Successfully.')">Save Settings</button>
-        </div>
+        <div class="card"><div class="card-title"><span>Mill Operational Configuration</span></div></div>
       </section>
 
     </div>
   </main>
 
-  <!-- Modal: Production Order -->
+  <!-- Modals -->
   <div class="modal-overlay" id="modal-order">
     <div class="modal-card">
       <h3 style="margin-bottom:16px;">Create Production Order</h3>
@@ -388,12 +438,10 @@
     </div>
   </div>
 
-  <!-- Modal: Yarn Stock -->
   <div class="modal-overlay" id="modal-yarn">
     <div class="modal-card">
       <h3 style="margin-bottom:16px;">Record Yarn Stock In</h3>
       <div class="form-group"><label class="form-label">Yarn Item Code</label><input id="myCode" class="form-input" value="YN-4084"></div>
-      <div class="form-group"><label class="form-label">Yarn Count / Spec</label><input id="mySpec" class="form-input" value="20s Cotton Carded"></div>
       <div class="form-group"><label class="form-label">Gross Weight (Kg)</label><input id="myGross" type="number" class="form-input" value="2500"></div>
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
         <button class="btn btn-outline" onclick="closeModal('modal-yarn')">Cancel</button>
@@ -402,43 +450,97 @@
     </div>
   </div>
 
-  <!-- Modal: QA Inspection -->
   <div class="modal-overlay" id="modal-qa">
     <div class="modal-card">
       <h3 style="margin-bottom:16px;">ASTM 4-Point Roll Inspection</h3>
       <div class="form-group"><label class="form-label">Roll Number</label><input id="mqRoll" class="form-input" value="ROLL-2026-0493"></div>
-      <div class="form-group"><label class="form-label">Inspected Yards</label><input id="mqYards" type="number" class="form-input" value="120"></div>
-      <div class="form-group"><label class="form-label">Fabric Width (in)</label><input id="mqWidth" type="number" class="form-input" value="63"></div>
-      <div class="form-group"><label class="form-label">Total Penalty Points</label><input id="mqPoints" type="number" class="form-input" value="4"></div>
+      <div class="form-group"><label class="form-label">Penalty Points</label><input id="mqPoints" type="number" class="form-input" value="4"></div>
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
         <button class="btn btn-outline" onclick="closeModal('modal-qa')">Cancel</button>
-        <button class="btn btn-primary" onclick="calculateASTMQuality()">Calculate & Submit</button>
+        <button class="btn btn-primary" onclick="calculateASTMQuality()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-log-meters">
+    <div class="modal-card">
+      <h3 style="margin-bottom:16px;">Log Worker Woven Meters Output</h3>
+      <div class="form-group"><label class="form-label">Woven Meters to Add</label><input id="mwMeters" type="number" class="form-input" value="40"></div>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+        <button class="btn btn-outline" onclick="closeModal('modal-log-meters')">Cancel</button>
+        <button class="btn btn-primary" onclick="logWorkerOutput()">Submit Log</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-leave">
+    <div class="modal-card">
+      <h3 style="margin-bottom:16px;">Submit Leave Request to Admin</h3>
+      <div class="form-group"><label class="form-label">Reason for Leave Request</label><input class="form-input" placeholder="e.g. Family Emergency / Medical"></div>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+        <button class="btn btn-outline" onclick="closeModal('modal-leave')">Cancel</button>
+        <button class="btn btn-primary" onclick="alert('Leave request submitted to Admin'); closeModal('modal-leave');">Send Request</button>
       </div>
     </div>
   </div>
 
   <script>
+    let currentRole = 'admin';
+    let currentMeters = 380;
+
     const loomsData = [
       { code: 'AJ-001', type: 'Airjet', rpm: 842, eff: 94.2, status: 'RUNNING', statusClass: 'badge-success' },
       { code: 'AJ-002', type: 'Airjet', rpm: 0, eff: 71.0, status: 'STOPPED_WARP', statusClass: 'badge-warning' },
       { code: 'RP-003', type: 'Rapier', rpm: 580, eff: 89.5, status: 'RUNNING', statusClass: 'badge-success' },
-      { code: 'AJ-004', type: 'Airjet', rpm: 0, eff: 45.2, status: 'BREAKDOWN', statusClass: 'badge-danger' },
-      { code: 'AJ-005', type: 'Airjet', rpm: 850, eff: 96.1, status: 'RUNNING', statusClass: 'badge-success' },
-      { code: 'RP-006', type: 'Rapier', rpm: 0, eff: 82.0, status: 'BEAM_CHANGE', statusClass: 'badge-warning' },
     ];
+
+    function setLoginRole(role) {
+      currentRole = role;
+      document.getElementById('btnRoleAdmin').classList.toggle('active', role === 'admin');
+      document.getElementById('btnRoleWorker').classList.toggle('active', role === 'worker');
+      document.getElementById('loginEmail').value = role === 'admin' ? 'admin@texmill-erp.com' : 'worker@texmill-erp.com';
+    }
+
+    function performLogin() {
+      document.getElementById('loginScreen').style.display = 'none';
+      switchUserRole(currentRole);
+    }
+
+    function performGoogleLogin() {
+      alert('Google Account Authenticated! Profile created in Firestore.');
+      document.getElementById('loginScreen').style.display = 'none';
+      switchUserRole(currentRole);
+    }
+
+    function logoutApp() {
+      document.getElementById('loginScreen').style.display = 'flex';
+    }
+
+    function switchUserRole(role) {
+      currentRole = role;
+      document.getElementById('userRoleBadge').innerText = 'ROLE: ' + role.toUpperCase();
+      document.getElementById('userProfileName').innerHTML = role === 'admin' ? '<i class="fa-solid fa-user-shield"></i> Rajesh Kumar (Admin)' : '<i class="fa-solid fa-user-gear"></i> John Weaver (Worker)';
+      document.getElementById('headerRoleSwitcher').value = role;
+
+      const adminElements = document.querySelectorAll('.admin-only');
+      const workerElements = document.querySelectorAll('.worker-only');
+
+      if (role === 'admin') {
+        adminElements.forEach(el => el.style.display = 'flex');
+        workerElements.forEach(el => el.style.display = 'none');
+        switchTab('dashboard');
+      } else {
+        adminElements.forEach(el => el.style.display = 'none');
+        workerElements.forEach(el => el.style.display = 'flex');
+        switchTab('worker-dashboard');
+      }
+    }
 
     function renderLooms() {
       const html = loomsData.map(l => `
         <div class="loom-card">
-          <div class="loom-header">
-            <span class="loom-code">${l.code} [${l.type}]</span>
-            <span class="badge ${l.statusClass}">${l.status}</span>
-          </div>
-          <div class="loom-metrics">
-            <span class="loom-rpm">${l.rpm} RPM</span>
-            <span class="loom-eff">Eff: ${l.eff}%</span>
-          </div>
-          <div style="font-size:11px; color:var(--text-muted);">Operator: Assigned Weaver</div>
+          <div class="loom-header"><span class="loom-code">${l.code} [${l.type}]</span><span class="badge ${l.statusClass}">${l.status}</span></div>
+          <div class="loom-metrics"><span class="loom-rpm">${l.rpm} RPM</span><span class="loom-eff">Eff: ${l.eff}%</span></div>
         </div>
       `).join('');
       document.getElementById('dashboardLoomGrid').innerHTML = html;
@@ -446,17 +548,15 @@
     }
 
     function switchTab(tabId) {
-      const tabs = ['dashboard', 'telemetry', 'production', 'inventory', 'quality', 'maintenance', 'attendance', 'reports', 'settings'];
+      const tabs = ['dashboard', 'worker-dashboard', 'telemetry', 'production', 'inventory', 'quality', 'maintenance', 'attendance', 'reports', 'settings'];
       tabs.forEach(t => {
         const el = document.getElementById('view-' + t);
         if (el) el.style.display = (t === tabId) ? 'block' : 'none';
       });
 
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      event.currentTarget.classList.add('active');
-
       const titles = {
-        dashboard: 'Executive Industrial Dashboard',
+        dashboard: 'Executive Industrial Admin Dashboard',
+        'worker-dashboard': 'Worker Operational Floor Dashboard',
         telemetry: 'Real-Time Machine Telemetry',
         production: 'Production Orders & Scheduling',
         inventory: 'Yarn & Stock Warehouse Management',
@@ -469,12 +569,17 @@
       document.getElementById('titleHeading').innerText = titles[tabId] || 'TexMill ERP';
     }
 
-    function toggleTheme() {
-      document.body.classList.toggle('dark-theme');
-    }
-
+    function toggleTheme() { document.body.classList.toggle('dark-theme'); }
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function logWorkerOutput() {
+      const added = parseFloat(document.getElementById('mwMeters').value) || 0;
+      currentMeters += added;
+      document.getElementById('workerMetersVal').innerText = currentMeters + ' m';
+      closeModal('modal-log-meters');
+      alert('Output logged! Total today: ' + currentMeters + ' meters');
+    }
 
     function addProductionOrder() {
       const cust = document.getElementById('moCust').value || 'New Customer';
@@ -489,41 +594,24 @@
 
     function addYarnStock() {
       const code = document.getElementById('myCode').value;
-      const spec = document.getElementById('mySpec').value;
       const gross = parseFloat(document.getElementById('myGross').value) || 1000;
       const tare = (gross * 0.05).toFixed(1);
       const net = (gross - tare).toFixed(1);
 
-      const row = `<tr><td><b>${code}</b></td><td>${spec}</td><td>Vardhman Mills</td><td>200</td><td>${gross}</td><td>${tare}</td><td><b>${net}</b></td><td><span class="badge badge-success">NORMAL</span></td></tr>`;
+      const row = `<tr><td><b>${code}</b></td><td>20s Cotton Carded</td><td>Vardhman Mills</td><td>200</td><td>${gross}</td><td>${tare}</td><td><b>${net}</b></td><td><span class="badge badge-success">NORMAL</span></td></tr>`;
       document.getElementById('yarnTableBody').insertAdjacentHTML('afterbegin', row);
       closeModal('modal-yarn');
     }
 
     function calculateASTMQuality() {
       const roll = document.getElementById('mqRoll').value;
-      const yards = parseFloat(document.getElementById('mqYards').value) || 100;
-      const width = parseFloat(document.getElementById('mqWidth').value) || 60;
       const points = parseInt(document.getElementById('mqPoints').value) || 0;
-
-      // Formula: (Points * 3600) / (Yards * Width)
-      const score = ((points * 3600) / (yards * width)).toFixed(2);
-      let grade = 'GRADE_A (FRESH)';
-      let badgeClass = 'badge-success';
-
-      if (score > 20.0 && score <= 35.0) {
-        grade = 'GRADE_B (SECOND)';
-        badgeClass = 'badge-warning';
-      } else if (score > 35.0) {
-        grade = 'GRADE_C (REJECT)';
-        badgeClass = 'badge-danger';
-      }
-
-      const row = `<tr><td><b>${roll}</b></td><td>AJ-001</td><td>${yards}</td><td>${width}</td><td>${points}</td><td><b>${score}</b></td><td><span class="badge ${badgeClass}">${grade}</span></td></tr>`;
+      const score = ((points * 3600) / (120 * 63)).toFixed(2);
+      const row = `<tr><td><b>${roll}</b></td><td>AJ-001</td><td>120</td><td>63</td><td>${points}</td><td><b>${score}</b></td><td><span class="badge badge-success">GRADE_A (FRESH)</span></td></tr>`;
       document.getElementById('qaTableBody').insertAdjacentHTML('afterbegin', row);
       closeModal('modal-qa');
     }
 
-    // Initialize
     renderLooms();
   </script>
 </body>

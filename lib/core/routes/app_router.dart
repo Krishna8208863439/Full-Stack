@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/authentication/views/login_screen.dart';
 import '../../features/dashboard/views/dashboard_screen.dart';
+import '../../features/dashboard/views/worker_dashboard_screen.dart';
 import '../../features/machine_monitoring/views/machine_monitoring_screen.dart';
 import '../../features/production/views/production_screen.dart';
 import '../../features/inventory/views/inventory_screen.dart';
@@ -15,6 +16,8 @@ import '../../features/profile/views/profile_screen.dart';
 
 class AppRoutes {
   static const String login = '/login';
+  static const String adminDashboard = '/admin-dashboard';
+  static const String workerDashboard = '/worker-dashboard';
   static const String dashboard = '/dashboard';
   static const String machines = '/machines';
   static const String production = '/production';
@@ -34,6 +37,14 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.login,
       builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.adminDashboard,
+      builder: (context, state) => const DashboardScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.workerDashboard,
+      builder: (context, state) => const WorkerDashboardScreen(),
     ),
     GoRoute(
       path: AppRoutes.dashboard,
