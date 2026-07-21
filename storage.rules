@@ -1,0 +1,29 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isPDFOrImage() {
+      return request.resource.contentType.matches('application/pdf')
+          || request.resource.contentType.matches('image/.*');
+    }
+
+    match /reports/{reportFile} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && isPDFOrImage();
+    }
+
+    match /defects/{defectImage} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && request.resource.contentType.matches('image/.*');
+    }
+
+    match /profiles/{userImage} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+  }
+}
