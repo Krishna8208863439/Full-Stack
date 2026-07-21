@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TexMill Enterprise Weaving Mill ERP</title>
+  <title>TexMill Enterprise Weaving Mill ERP (Multi-Device Responsive)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -37,26 +37,27 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: var(--bg-surface-variant); color: var(--text-dark); display: flex; height: 100vh; overflow: hidden; }
 
-    /* Login View Styles */
+    /* Responsive Login Container */
     .login-container {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: var(--bg-surface-variant);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 2000;
+      display: flex; z-index: 2000;
+    }
+    .login-left-banner {
+      flex: 1; background: var(--bg-sidebar); color: #FFF; padding: 48px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .login-right-form {
+      flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px;
     }
     .login-card {
-      background: var(--bg-surface);
-      width: 440px;
-      padding: 36px;
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
+      background: var(--bg-surface); width: 100%; max-width: 440px;
+      padding: 32px; border-radius: 12px; border: 1px solid var(--border-color);
       box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     }
     .role-toggle {
-      display: flex; background: var(--bg-surface-variant);
-      padding: 4px; border-radius: 8px; border: 1px solid var(--border-color);
-      margin-bottom: 20px;
+      display: flex; background: var(--bg-surface-variant); padding: 4px;
+      border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px;
     }
     .role-btn {
       flex: 1; padding: 10px; border: none; background: transparent;
@@ -65,89 +66,40 @@
     }
     .role-btn.active { background: var(--primary-blue); color: #FFF; }
 
-    /* Sidebar Navigation */
+    /* Sidebar & TopBar Layout */
     .sidebar {
-      width: 260px;
-      background-color: var(--bg-sidebar);
-      color: #FFFFFF;
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      border-right: 1px solid var(--border-color);
+      width: 260px; background-color: var(--bg-sidebar); color: #FFFFFF;
+      display: flex; flex-direction: column; flex-shrink: 0; border-right: 1px solid var(--border-color);
+      transition: width 0.3s ease;
     }
-    .sidebar-header {
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 1px solid #1E293B;
-    }
-    .brand-icon {
-      width: 38px;
-      height: 38px;
-      background: var(--primary-blue);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #FFF;
-    }
+    .sidebar-header { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #1E293B; }
+    .brand-icon { width: 38px; height: 38px; background: var(--primary-blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #FFF; }
     .brand-title { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
     .brand-subtitle { font-size: 11px; color: var(--secondary-slate); }
     .nav-list { list-style: none; padding: 12px 8px; flex: 1; overflow-y: auto; }
     .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      border-radius: 6px;
-      color: #94A3B8;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      margin-bottom: 2px;
-      transition: all 0.2s;
+      display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 6px;
+      color: #94A3B8; font-size: 13px; font-weight: 500; cursor: pointer; margin-bottom: 2px;
     }
     .nav-item:hover, .nav-item.active { background-color: rgba(15, 82, 186, 0.15); color: #60A5FA; }
     .nav-item i { width: 18px; text-align: center; }
 
-    /* Main Container */
     .main-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
     .top-bar {
-      height: 60px;
-      background-color: var(--bg-surface);
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
+      height: 60px; background-color: var(--bg-surface); border-bottom: 1px solid var(--border-color);
+      display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
     }
     .page-title-area { display: flex; align-items: center; gap: 12px; }
     .page-title { font-size: 18px; font-weight: 700; }
-    .role-badge {
-      background: rgba(15, 82, 186, 0.1);
-      color: var(--primary-blue);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-    }
-    .top-actions { display: flex; align-items: center; gap: 16px; }
+    .role-badge { background: rgba(15, 82, 186, 0.1); color: var(--primary-blue); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+    .top-actions { display: flex; align-items: center; gap: 14px; }
     .btn-icon { background: none; border: none; color: var(--text-muted); font-size: 16px; cursor: pointer; }
 
     .content-viewport { flex: 1; padding: 24px; overflow-y: auto; }
 
-    /* Cards & Grids */
+    /* Responsive Grids */
     .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-    .kpi-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 18px;
-      display: flex; flex-direction: column; justify-content: space-between;
-    }
+    .kpi-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; }
     .kpi-header { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--text-muted); }
     .kpi-value { font-size: 24px; font-weight: 800; margin: 10px 0 4px 0; color: var(--primary-blue); }
     .kpi-subtitle { font-size: 11px; color: var(--text-muted); }
@@ -176,56 +128,92 @@
     .btn-primary { background: var(--primary-blue); color: #FFF; }
     .btn-primary:hover { background: var(--primary-blue-hover); }
     .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-dark); }
-    
+
     .form-group { margin-bottom: 14px; }
     .form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; display: block; }
     .form-input, select { width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-surface); color: var(--text-dark); }
 
     .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
     .modal-card { background: var(--bg-surface); width: 450px; border-radius: 8px; padding: 24px; border: 1px solid var(--border-color); }
+
+    /* Responsive Breakpoints Rules */
+    @media (max-width: 1023px) {
+      .login-left-banner { display: none; }
+      .login-right-form { flex: 1; }
+      .sidebar { width: 70px; }
+      .brand-title, .brand-subtitle, .nav-item span { display: none; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .loom-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 599px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+      .loom-grid { grid-template-columns: 1fr; }
+      .content-viewport { padding: 14px; }
+      .top-bar { padding: 0 14px; }
+      .page-title { font-size: 15px; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Login Overlay View -->
+  <!-- Login Overlay View with Desktop Split-Screen -->
   <div class="login-container" id="loginScreen">
-    <div class="login-card">
-      <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
+    <div class="login-left-banner">
+      <div style="display:flex; align-items:center; gap:12px;">
         <div class="brand-icon"><i class="fa-solid fa-industry"></i></div>
-        <div>
-          <div style="font-size:18px; font-weight:700;">TEXMILL ERP</div>
-          <div style="font-size:12px; color:var(--text-muted);">Weaving Mill Enterprise Login</div>
+        <div style="font-size:22px; font-weight:700; letter-spacing:1px;">TEXMILL ERP</div>
+      </div>
+      <div>
+        <h2 style="font-size:26px; font-weight:700; margin-bottom:12px; line-height:1.3;">Enterprise Weaving Mill Execution System</h2>
+        <p style="font-size:14px; color:rgba(255,255,255,0.7); line-height:1.6; margin-bottom:24px;">Real-time Airjet & Rapier telemetry, paper cone tare-weight deduction, ASTM D5430 4-point fabric inspection grading, and shift workforce attendance.</p>
+        <div style="display:flex; gap:20px;">
+          <div><div style="font-weight:700; font-size:18px;">48</div><div style="font-size:10px; color:rgba(255,255,255,0.6);">ACTIVE LOOMS</div></div>
+          <div><div style="font-weight:700; font-size:18px;">88.4%</div><div style="font-size:10px; color:rgba(255,255,255,0.6);">PLANT EFF.</div></div>
+          <div><div style="font-weight:700; font-size:18px;">14.2K m</div><div style="font-size:10px; color:rgba(255,255,255,0.6);">DAILY METERS</div></div>
         </div>
       </div>
+      <div style="font-size:11px; color:rgba(255,255,255,0.4);">© 2026 TexMill Enterprise • Multi-Platform Responsive Build</div>
+    </div>
 
-      <div class="form-label" style="margin-bottom:6px;">SELECT LOGIN TYPE</div>
-      <div class="role-toggle">
-        <button class="role-btn active" id="btnRoleAdmin" onclick="setLoginRole('admin')"><i class="fa-solid fa-user-shield"></i> Admin</button>
-        <button class="role-btn" id="btnRoleWorker" onclick="setLoginRole('worker')"><i class="fa-solid fa-user-gear"></i> Worker</button>
+    <div class="login-right-form">
+      <div class="login-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+          <div class="brand-icon"><i class="fa-solid fa-industry"></i></div>
+          <div>
+            <div style="font-size:18px; font-weight:700;">TEXMILL ERP</div>
+            <div style="font-size:12px; color:var(--text-muted);">Weaving Mill Enterprise System</div>
+          </div>
+        </div>
+
+        <div class="form-label">SELECT LOGIN TYPE</div>
+        <div class="role-toggle">
+          <button class="role-btn active" id="btnRoleAdmin" onclick="setLoginRole('admin')"><i class="fa-solid fa-user-shield"></i> Admin</button>
+          <button class="role-btn" id="btnRoleWorker" onclick="setLoginRole('worker')"><i class="fa-solid fa-user-gear"></i> Worker</button>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email / Employee ID</label>
+          <input class="form-input" id="loginEmail" value="admin@texmill-erp.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" value="password123">
+        </div>
+
+        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:11px;" onclick="performLogin()">SIGN IN TO FACTORY SYSTEM</button>
+        
+        <div style="text-align:center; margin:14px 0; font-size:11px; font-weight:700; color:var(--text-muted);">OR</div>
+
+        <button class="btn btn-outline" style="width:100%; justify-content:center; padding:9px;" onclick="performGoogleLogin()">
+          <i class="fa-brands fa-google" style="color:var(--primary-blue);"></i> Continue with Google
+        </button>
+
+        <div style="text-align:center; font-size:11px; color:var(--text-muted); margin-top:16px;">Protected by TexMill Auth • TLS 1.3 & Firebase SSO</div>
       </div>
-
-      <div class="form-group">
-        <label class="form-label">Corporate Email / Employee ID</label>
-        <input class="form-input" id="loginEmail" value="admin@texmill-erp.com">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input class="form-input" type="password" value="password123">
-      </div>
-
-      <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:10px; padding:12px;" onclick="performLogin()">SIGN IN TO FACTORY SYSTEM</button>
-      
-      <div style="text-align:center; margin:16px 0; font-size:11px; font-weight:700; color:var(--text-muted);">OR</div>
-
-      <button class="btn btn-outline" style="width:100%; justify-content:center; padding:10px;" onclick="performGoogleLogin()">
-        <i class="fa-brands fa-google" style="color:var(--primary-blue);"></i> Continue with Google
-      </button>
-
-      <div style="text-align:center; font-size:11px; color:var(--text-muted); margin-top:20px;">Protected by TexMill Auth • TLS 1.3 & Firebase SSO</div>
     </div>
   </div>
 
-  <!-- Main App Layout -->
+  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="brand-icon"><i class="fa-solid fa-industry"></i></div>
@@ -234,8 +222,7 @@
         <div class="brand-subtitle">Weaving Mill Enterprise</div>
       </div>
     </div>
-    <ul class="nav-list" id="sidebarNav">
-      <!-- Admin Nav Items -->
+    <ul class="nav-list">
       <li class="nav-item active admin-only" onclick="switchTab('dashboard')"><i class="fa-solid fa-chart-line"></i><span>Admin Dashboard</span></li>
       <li class="nav-item worker-only" style="display:none;" onclick="switchTab('worker-dashboard')"><i class="fa-solid fa-user-gear"></i><span>Worker Dashboard</span></li>
       <li class="nav-item admin-only" onclick="switchTab('telemetry')"><i class="fa-solid fa-microchip"></i><span>Machine Telemetry</span></li>
@@ -249,6 +236,7 @@
     </ul>
   </aside>
 
+  <!-- Main Workspace -->
   <main class="main-container">
     <header class="top-bar">
       <div class="page-title-area">
@@ -257,24 +245,23 @@
       </div>
       <div class="top-actions">
         <select id="headerRoleSwitcher" style="width: auto; padding: 4px 8px; font-weight:700;" onchange="switchUserRole(this.value)">
-          <option value="admin">Switch to Admin Mode</option>
-          <option value="worker">Switch to Worker Mode</option>
+          <option value="admin">Admin Mode</option>
+          <option value="worker">Worker Mode</option>
         </select>
         <button class="btn-icon" title="Toggle Theme" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
         <button class="btn-icon" title="Logout" onclick="logoutApp()"><i class="fa-solid fa-right-from-bracket" style="color:var(--status-danger);"></i></button>
-        <div style="font-size: 13px; font-weight: 600;" id="userProfileName"><i class="fa-solid fa-user-circle"></i> Rajesh Kumar</div>
       </div>
     </header>
 
     <div class="content-viewport">
 
-      <!-- View: Admin Dashboard -->
+      <!-- Admin Dashboard View -->
       <section id="view-dashboard">
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-header"><span>ACTIVE LOOMS</span><i class="fa-solid fa-gears" style="color:var(--status-success);"></i></div>
             <div class="kpi-value">48 / 50</div>
-            <div class="kpi-subtitle">96% Operating Efficiency</div>
+            <div class="kpi-subtitle">96% Operating Rate</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-header"><span>FACTORY EFFICIENCY</span><i class="fa-solid fa-gauge-high" style="color:var(--primary-blue);"></i></div>
@@ -289,22 +276,22 @@
           <div class="kpi-card">
             <div class="kpi-header"><span>DEFECT RATE</span><i class="fa-solid fa-shield-check" style="color:var(--status-warning);"></i></div>
             <div class="kpi-value">1.2%</div>
-            <div class="kpi-subtitle">ASTM 4-Point Standard Passed</div>
+            <div class="kpi-subtitle">ASTM 4-Point Passed</div>
           </div>
         </div>
 
         <div class="card">
           <div class="card-title">
-            <span>LIVE LOOM OPERATIONAL MATRIX (AIRJET / RAPIER)</span>
+            <span>LIVE LOOM OPERATIONAL MATRIX</span>
             <button class="btn btn-primary" onclick="openModal('modal-order')"><i class="fa-solid fa-plus"></i> New Order</button>
           </div>
           <div class="loom-grid" id="dashboardLoomGrid"></div>
         </div>
       </section>
 
-      <!-- View: Worker Dashboard -->
+      <!-- Worker Dashboard View -->
       <section id="view-worker-dashboard" style="display:none;">
-        <div class="card" style="background:var(--bg-surface);">
+        <div class="card">
           <div class="card-title">
             <span>WORKER ASSIGNED LOOM TELEMETRY & TASKS</span>
             <button class="btn btn-primary" style="background:var(--status-success);" onclick="alert('Shift A Attendance Marked: PRESENT')"><i class="fa-solid fa-check"></i> Mark Shift Attendance</button>
@@ -329,13 +316,13 @@
             <div class="kpi-card">
               <div class="kpi-header"><span>STOP COUNTS</span><i class="fa-solid fa-triangle-exclamation" style="color:var(--status-warning);"></i></div>
               <div class="kpi-value">W: 2 | WF: 0</div>
-              <div class="kpi-subtitle">Shift A Recorded</div>
+              <div class="kpi-subtitle">Shift A Logged</div>
             </div>
           </div>
 
           <div style="display:flex; gap:12px; margin-bottom:20px;">
-            <button class="btn btn-primary" onclick="openModal('modal-log-meters')"><i class="fa-solid fa-plus"></i> Log Woven Meters Output</button>
-            <button class="btn btn-outline" onclick="openModal('modal-leave')"><i class="fa-solid fa-calendar-minus"></i> Submit Leave Request</button>
+            <button class="btn btn-primary" onclick="openModal('modal-log-meters')"><i class="fa-solid fa-plus"></i> Log Output</button>
+            <button class="btn btn-outline" onclick="openModal('modal-leave')"><i class="fa-solid fa-calendar-minus"></i> Leave Request</button>
           </div>
 
           <div class="card-title"><span>TODAY SHIFT WORKER INSTRUCTIONS</span></div>
@@ -344,7 +331,6 @@
             <tbody>
               <tr><td>Inspect Airjet Loom AJ-001 Warp Thread Tension</td><td><b style="color:var(--status-warning);">HIGH</b></td><td><span class="badge badge-warning">IN_PROGRESS</span></td></tr>
               <tr><td>Clear Weft Stop Sensor on Loom AJ-002</td><td>NORMAL</td><td><span class="badge badge-warning">PENDING</span></td></tr>
-              <tr><td>Log End-of-Shift Woven Meterage Entry</td><td>HIGH</td><td><span class="badge badge-success">COMPLETED</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -358,12 +344,11 @@
       <!-- View: Production -->
       <section id="view-production" style="display:none;">
         <div class="card">
-          <div class="card-title"><span>Production Orders & Scheduling</span><button class="btn btn-primary" onclick="openModal('modal-order')"><i class="fa-solid fa-plus"></i> Add Order</button></div>
+          <div class="card-title"><span>Production Orders</span><button class="btn btn-primary" onclick="openModal('modal-order')"><i class="fa-solid fa-plus"></i> Add Order</button></div>
           <table>
             <thead><tr><th>Order No</th><th>Customer</th><th>Fabric Spec</th><th>Target (m)</th><th>Produced (m)</th><th>Status</th></tr></thead>
             <tbody id="ordersTableBody">
               <tr><td><b>PO-9901</b></td><td>Apex Textiles</td><td>30s-COTTON-63IN</td><td>50,000</td><td>32,400</td><td><span class="badge badge-success">RUNNING</span></td></tr>
-              <tr><td><b>PO-9902</b></td><td>Raymond Synthetic</td><td>150D-POLYESTER</td><td>20,000</td><td>20,000</td><td><span class="badge badge-success">COMPLETED</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -372,7 +357,7 @@
       <!-- View: Inventory -->
       <section id="view-inventory" style="display:none;">
         <div class="card">
-          <div class="card-title"><span>Yarn Warehouse & Paper Cone Tare Weight Ledger</span><button class="btn btn-primary" onclick="openModal('modal-yarn')"><i class="fa-solid fa-boxes-packing"></i> Yarn Stock In</button></div>
+          <div class="card-title"><span>Yarn Warehouse Ledger</span><button class="btn btn-primary" onclick="openModal('modal-yarn')"><i class="fa-solid fa-boxes-packing"></i> Yarn Stock In</button></div>
           <table>
             <thead><tr><th>Yarn Code</th><th>Count Spec</th><th>Supplier</th><th>Cones</th><th>Gross Wt (kg)</th><th>Tare Wt (kg)</th><th>Net Wt (kg)</th><th>Status</th></tr></thead>
             <tbody id="yarnTableBody">
@@ -385,7 +370,7 @@
       <!-- View: Quality -->
       <section id="view-quality" style="display:none;">
         <div class="card">
-          <div class="card-title"><span>ASTM D5430 4-Point Fabric Inspection</span><button class="btn btn-primary" onclick="openModal('modal-qa')"><i class="fa-solid fa-calculator"></i> Grade Roll</button></div>
+          <div class="card-title"><span>ASTM D5430 4-Point Inspection</span><button class="btn btn-primary" onclick="openModal('modal-qa')"><i class="fa-solid fa-calculator"></i> Grade Roll</button></div>
           <table>
             <thead><tr><th>Roll No</th><th>Loom ID</th><th>Yards</th><th>Width (in)</th><th>Points</th><th>Score / 100 sq yd</th><th>Grade</th></tr></thead>
             <tbody id="qaTableBody">
@@ -409,17 +394,11 @@
       </section>
 
       <!-- View: Attendance -->
-      <section id="view-attendance" style="display:none;">
-        <div class="card"><div class="card-title"><span>Shift Roster & Piece-Rate Output</span></div></div>
-      </section>
+      <section id="view-attendance" style="display:none;"><div class="card"><div class="card-title"><span>Shift Roster Matrix</span></div></div></section>
       <!-- View: Reports -->
-      <section id="view-reports" style="display:none;">
-        <div class="card"><div class="card-title"><span>Enterprise PDF & Excel Exporters</span></div></div>
-      </section>
+      <section id="view-reports" style="display:none;"><div class="card"><div class="card-title"><span>PDF & Excel Reports Engine</span></div></div></section>
       <!-- View: Settings -->
-      <section id="view-settings" style="display:none;">
-        <div class="card"><div class="card-title"><span>Mill Operational Configuration</span></div></div>
-      </section>
+      <section id="view-settings" style="display:none;"><div class="card"><div class="card-title"><span>Mill Settings Configuration</span></div></div></section>
 
     </div>
   </main>
@@ -452,7 +431,7 @@
 
   <div class="modal-overlay" id="modal-qa">
     <div class="modal-card">
-      <h3 style="margin-bottom:16px;">ASTM 4-Point Roll Inspection</h3>
+      <h3 style="margin-bottom:16px;">ASTM 4-Point Inspection</h3>
       <div class="form-group"><label class="form-label">Roll Number</label><input id="mqRoll" class="form-input" value="ROLL-2026-0493"></div>
       <div class="form-group"><label class="form-label">Penalty Points</label><input id="mqPoints" type="number" class="form-input" value="4"></div>
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
@@ -464,11 +443,11 @@
 
   <div class="modal-overlay" id="modal-log-meters">
     <div class="modal-card">
-      <h3 style="margin-bottom:16px;">Log Worker Woven Meters Output</h3>
+      <h3 style="margin-bottom:16px;">Log Woven Meters Output</h3>
       <div class="form-group"><label class="form-label">Woven Meters to Add</label><input id="mwMeters" type="number" class="form-input" value="40"></div>
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
         <button class="btn btn-outline" onclick="closeModal('modal-log-meters')">Cancel</button>
-        <button class="btn btn-primary" onclick="logWorkerOutput()">Submit Log</button>
+        <button class="btn btn-primary" onclick="logWorkerOutput()">Submit Output</button>
       </div>
     </div>
   </div>
@@ -476,10 +455,10 @@
   <div class="modal-overlay" id="modal-leave">
     <div class="modal-card">
       <h3 style="margin-bottom:16px;">Submit Leave Request to Admin</h3>
-      <div class="form-group"><label class="form-label">Reason for Leave Request</label><input class="form-input" placeholder="e.g. Family Emergency / Medical"></div>
+      <div class="form-group"><label class="form-label">Reason for Leave Request</label><input class="form-input" placeholder="e.g. Medical / Family"></div>
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
         <button class="btn btn-outline" onclick="closeModal('modal-leave')">Cancel</button>
-        <button class="btn btn-primary" onclick="alert('Leave request submitted to Admin'); closeModal('modal-leave');">Send Request</button>
+        <button class="btn btn-primary" onclick="alert('Leave Request Sent'); closeModal('modal-leave');">Send Request</button>
       </div>
     </div>
   </div>
@@ -507,7 +486,7 @@
     }
 
     function performGoogleLogin() {
-      alert('Google Account Authenticated! Profile created in Firestore.');
+      alert('Google Account Authenticated! Profile auto-created in Firestore users collection.');
       document.getElementById('loginScreen').style.display = 'none';
       switchUserRole(currentRole);
     }
@@ -519,7 +498,6 @@
     function switchUserRole(role) {
       currentRole = role;
       document.getElementById('userRoleBadge').innerText = 'ROLE: ' + role.toUpperCase();
-      document.getElementById('userProfileName').innerHTML = role === 'admin' ? '<i class="fa-solid fa-user-shield"></i> Rajesh Kumar (Admin)' : '<i class="fa-solid fa-user-gear"></i> John Weaver (Worker)';
       document.getElementById('headerRoleSwitcher').value = role;
 
       const adminElements = document.querySelectorAll('.admin-only');
